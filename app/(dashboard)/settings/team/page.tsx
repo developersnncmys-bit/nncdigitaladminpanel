@@ -8,7 +8,6 @@ import {
   ArrowLeft,
 } from 'lucide-react';
 import { User, UserRole } from '@/lib/types';
-import { SERVICES, STATES } from '@/lib/constants';
 import * as api from '@/lib/api';
 import Pagination from '@/components/Pagination';
 
@@ -557,51 +556,6 @@ export default function TeamSettingsPage() {
                   </div>
                 </div>
 
-                {/* Services handled — new leads for these auto-assign to this user */}
-                <div className="col-span-2">
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                    Services Handled
-                    <span className="text-xs text-gray-400 font-normal ml-1">— new leads for these auto-assign here</span>
-                  </label>
-                  <div className="flex flex-wrap gap-2">
-                    {SERVICES.map((s) => {
-                      const on = form.services.includes(s);
-                      return (
-                        <button
-                          key={s}
-                          type="button"
-                          onClick={() => toggleIn('services', s)}
-                          className={`text-xs font-semibold px-2.5 py-1.5 rounded-lg border transition-all ${on ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'}`}
-                        >
-                          {s}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* States handled — empty = all states */}
-                <div className="col-span-2">
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                    States Handled
-                    <span className="text-xs text-gray-400 font-normal ml-1">— leave empty for all states</span>
-                  </label>
-                  <div className="flex flex-wrap gap-2 max-h-40 overflow-y-auto p-0.5">
-                    {STATES.map((s) => {
-                      const on = form.states.includes(s);
-                      return (
-                        <button
-                          key={s}
-                          type="button"
-                          onClick={() => toggleIn('states', s)}
-                          className={`text-xs font-semibold px-2.5 py-1.5 rounded-lg border transition-all ${on ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'}`}
-                        >
-                          {s}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
               </div>
             </div>
 
