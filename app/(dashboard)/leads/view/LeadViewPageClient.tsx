@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import type { Lead, LeadStatus } from '@/lib/types';
 import { STATUS_CONFIG, LEAD_STATUSES } from '@/lib/constants';
-import { formatDate } from '@/lib/format';
+import { formatDate, formatTime } from '@/lib/format';
 import * as api from '@/lib/api';
 import { useAddLead } from '@/context/AddLeadContext';
 import { useAuthUser } from '@/lib/useAuthUser';
@@ -142,7 +142,7 @@ export default function LeadViewPageClient() {
           <Stat label="Company" value={lead.company} />
           <Stat label="Team size" value={lead.teamSize} />
           <Stat label="Source" value={lead.source || ''} />
-          <Stat label="Date" value={formatDate(lead.date)} />
+          <Stat label="Date" value={`${formatDate(lead.date)} · ${formatTime(lead.createdAt)}`} />
         </div>
       </div>
 
@@ -152,6 +152,7 @@ export default function LeadViewPageClient() {
         <p className="text-xs text-gray-400 mb-5">Details submitted with this lead</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <InfoField label="Date" value={formatDate(lead.date)} />
+          <InfoField label="Time" value={formatTime(lead.createdAt)} />
           <InfoField label="Full Name" value={lead.name} />
           <InfoField label="Work Email" value={lead.email} />
           <InfoField label="Phone" value={lead.mobileNumber} />

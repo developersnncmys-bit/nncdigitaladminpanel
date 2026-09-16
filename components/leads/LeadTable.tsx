@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { Search, Trash2, Download, CheckCircle } from 'lucide-react';
 import { Lead } from '@/lib/types';
-import { formatDate } from '@/lib/format';
+import { formatDate, formatTime } from '@/lib/format';
 import * as api from '@/lib/api';
 import { useAddLead } from '@/context/AddLeadContext';
 import { useAuthUser } from '@/lib/useAuthUser';
@@ -30,17 +30,19 @@ export default function LeadTable({ leads }: Props) {
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
   const [deleteSuccess, setDeleteSuccess] = useState<number | null>(null);
 
-  // Team member names for the assign dropdown.
+  // Team member names for the assign dropdown — employees only (never admins).
   const [users, setUsers] = useState<string[]>([]);
   useEffect(() => {
     try {
       const cached = localStorage.getItem('crm-users');
-      if (cached) setUsers(JSON.parse(cached).map((u: { name: string }) => u.name).filter(Boolean));
+      if (cached) {
+        setUsers(JSON.parse(cached).filter((u: { role?: string }) => u.role !== 'admin').map((u: { name: string }) => u.name).filter(Boolean));
+      }
     } catch { /* ignore */ }
     api.listUsers()
       .then((list) => {
         try { localStorage.setItem('crm-users', JSON.stringify(list)); } catch { /* ignore */ }
-        setUsers(list.map((u) => u.name).filter(Boolean));
+        setUsers(list.filter((u) => u.role !== 'admin').map((u) => u.name).filter(Boolean));
       })
       .catch(() => { /* keep cached */ });
   }, []);
@@ -259,7 +261,10 @@ export default function LeadTable({ leads }: Props) {
                       />
                     </td>
                   )}
-                  <td className="px-3 py-3 text-xs text-gray-700 font-medium whitespace-nowrap hidden lg:table-cell">{formatDate(lead.date)}</td>
+                  <td className="px-3 py-3 whitespace-nowrap hidden lg:table-cell">
+                    <div className="text-xs text-gray-700 font-medium">{formatDate(lead.date)}</div>
+                    <div className="text-[11px] text-gray-400">{formatTime(lead.createdAt)}</div>
+                  </td>
                   <td className="px-3 py-3">
                     <div className="flex items-center gap-2 min-w-0">
                       <div className="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0">
@@ -310,7 +315,7 @@ export default function LeadTable({ leads }: Props) {
               <div className="mt-3 text-xs text-gray-600 space-y-0.5">
                 {lead.email && <p className="truncate">✉️ {lead.email}</p>}
                 {lead.company && <p className="truncate">🏢 {lead.company}{lead.teamSize ? ` · ${lead.teamSize}` : ''}</p>}
-                <p className="text-gray-400 font-medium">{formatDate(lead.date)}</p>
+                <p className="text-gray-400 font-medium">{formatDate(lead.date)} · {formatTime(lead.createdAt)}</p>
               </div>
             </div>
           ))

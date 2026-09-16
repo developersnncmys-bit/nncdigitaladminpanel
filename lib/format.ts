@@ -13,3 +13,11 @@ export function formatDate(value?: string): string {
   const mm = String(dt.getMonth() + 1).padStart(2, '0');
   return `${dd}/${mm}/${dt.getFullYear()}`;
 }
+
+// Formats the time portion of an ISO timestamp as e.g. "06:46 PM".
+export function formatTime(value?: string): string {
+  if (!value) return '—';
+  const dt = new Date(value);
+  if (Number.isNaN(dt.getTime())) return '—';
+  return dt.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
+}
