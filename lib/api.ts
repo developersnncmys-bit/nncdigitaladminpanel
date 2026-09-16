@@ -3,7 +3,7 @@ import type { Lead, User, Blog, Career } from './types';
 // ── Backend API client ───────────────────────────────────────────────────
 // Talks to the NNC Digital Node/Express backend (see /backend). The base URL
 // comes from NEXT_PUBLIC_API_URL and falls back to the local dev server.
-const BASE = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api').replace(/\/$/, '');
+const BASE = (process.env.NEXT_PUBLIC_API_URL || 'https://nncdigitalbackend.vercel.app/api').replace(/\/$/, '');
 
 const TOKEN_KEY = 'crm-token';
 
