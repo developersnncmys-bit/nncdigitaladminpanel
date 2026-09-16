@@ -15,6 +15,8 @@ interface Props {
 export default function DonutChart({ data }: Props) {
   const [hovered, setHovered] = useState<number | null>(null);
   const total = data.reduce((s, d) => s + d.value, 0);
+  // Avoid divide-by-zero (NaN) when there are no leads yet.
+  const denom = total || 1;
 
   const r = 48;
   const rOuter = 54; // expanded radius on hover
@@ -25,13 +27,13 @@ export default function DonutChart({ data }: Props) {
 
   // Pre-calculate cumulative offsets
   const segments = data.map((d, i) => {
-    const pct = d.value / total;
+    const pct = d.value / denom;
     return { ...d, pct, index: i };
   });
 
   let cumulative = 0;
   const rendered = segments.map((seg) => {
-    const rotation = (cumulative / total) * 360 - 90;
+    const rotation = (cumulative / denom) * 360 - 90;
     cumulative += seg.value;
     return { ...seg, rotation };
   });
@@ -80,7 +82,7 @@ export default function DonutChart({ data }: Props) {
                 {hoveredSeg.value}
               </text>
               <text x={cx} y={cy + 6} textAnchor="middle" fill="#94a3b8" fontSize="7" fontWeight="500">
-                {((hoveredSeg.value / total) * 100).toFixed(0)}%
+                {((hoveredSeg.value / denom) * 100).toFixed(0)}%
               </text>
             </>
           ) : (
