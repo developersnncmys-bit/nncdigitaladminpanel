@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  /* Stop any wide element (e.g. the leads table) from pushing the page past the
+     screen width, which made mobile browsers zoom out / not fit. `clip` (not
+     `hidden`) so it doesn't create a scroll container that breaks the sticky
+     header. */
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 100px; }
+::-webkit-scrollbar-thumb:hover { background: #cbd5e1; }
+
+.safe-area-bottom { padding-bottom: env(safe-area-inset-bottom); }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.15s ease-in-out;
+}
+
+
+/* CATEGORY DISTRIBUTION */
+
+.custom-scrollbar {
+  scroll-behavior: smooth;
+}
+
+.category-card {
+  transition: all 0.3s ease;
+}
+
+.category-card:hover {
+  transform: translateY(-2px);
+}
