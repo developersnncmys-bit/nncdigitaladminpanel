@@ -182,8 +182,9 @@ export default function LeadViewPageClient() {
 
         <span className="w-px h-6 bg-gray-200 mx-1 hidden sm:block" />
 
-        {/* Status change buttons — Overdue is set automatically, not manually. */}
-        {LEAD_STATUSES.filter((s) => s !== lead.status && s !== 'overdue').map((s) => {
+        {/* Status change buttons. "New Lead" is the initial state and Overdue is
+            automatic, so neither is offered as a manual action. */}
+        {LEAD_STATUSES.filter((s) => s !== lead.status && s !== 'overdue' && s !== 'new').map((s) => {
           const c = STATUS_CONFIG[s];
           return (
             <button
