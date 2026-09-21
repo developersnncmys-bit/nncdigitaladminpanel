@@ -158,6 +158,8 @@ export default function LeadViewPageClient() {
           <InfoField label="Phone" value={lead.mobileNumber} />
           <InfoField label="Company" value={lead.company} />
           <InfoField label="Team Size" value={lead.teamSize} />
+          <InfoField label="State" value={lead.state || ''} />
+          <InfoField label="District" value={lead.district || ''} />
           <InfoField label="Source" value={lead.source || ''} />
           <InfoField label="Status" value={cfg.label} />
           {lead.followUpDate && <InfoField label="Follow-up Date" value={formatDate(lead.followUpDate)} />}

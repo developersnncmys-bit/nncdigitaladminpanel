@@ -20,6 +20,8 @@ export interface Lead {
   mobileNumber: string;  // Phone
   company: string;
   teamSize: string;
+  state?: string;
+  district?: string;
   status: LeadStatus;
   // Team member this lead is assigned to (empty = unassigned).
   assignedTo?: string;
