@@ -22,6 +22,7 @@ export interface Lead {
   teamSize: string;
   state?: string;
   district?: string;
+  destination?: string;
   status: LeadStatus;
   // Team member this lead is assigned to (empty = unassigned).
   assignedTo?: string;
