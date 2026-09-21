@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { X, UserPlus, CheckCircle } from 'lucide-react';
 import { useAddLead } from '@/context/AddLeadContext';
 import { LEAD_SOURCES } from '@/lib/constants';
+import { INDIAN_STATES, districtsOf } from '@/lib/geo';
 import type { Lead } from '@/lib/types';
 
 interface FormData {
@@ -12,10 +13,12 @@ interface FormData {
   mobileNumber: string;
   company: string;
   teamSize: string;
+  state: string;
+  district: string;
   source: string;
 }
 
-const INITIAL: FormData = { name: '', email: '', mobileNumber: '', company: '', teamSize: '', source: '' };
+const INITIAL: FormData = { name: '', email: '', mobileNumber: '', company: '', teamSize: '', state: '', district: '', source: '' };
 
 const TEAM_SIZES = ['1–5', '6–20', '21–50', '51–200', '200+'];
 
@@ -83,6 +86,8 @@ export default function AddLeadModal() {
       mobileNumber: form.mobileNumber,
       company: form.company,
       teamSize: form.teamSize,
+      state: form.state,
+      district: form.district,
       status: 'new',
       notes: [],
       date: new Date().toISOString().split('T')[0],
@@ -154,6 +159,24 @@ export default function AddLeadModal() {
                   <select value={form.teamSize} onChange={set('teamSize')} className={inputCls()}>
                     <option value="">Select</option>
                     {TEAM_SIZES.map((t) => <option key={t} value={t}>{t}</option>)}
+                  </select>
+                </Field>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="State">
+                  <select
+                    value={form.state}
+                    onChange={(e) => setForm((f) => ({ ...f, state: e.target.value, district: '' }))}
+                    className={inputCls()}
+                  >
+                    <option value="">Select state</option>
+                    {INDIAN_STATES.map((st) => <option key={st} value={st}>{st}</option>)}
+                  </select>
+                </Field>
+                <Field label="District">
+                  <select value={form.district} onChange={set('district')} disabled={!form.state} className={inputCls()}>
+                    <option value="">{form.state ? 'Select district' : 'Select a state first'}</option>
+                    {districtsOf(form.state).map((d) => <option key={d} value={d}>{d}</option>)}
                   </select>
                 </Field>
               </div>
